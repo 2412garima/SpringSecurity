@@ -15,17 +15,26 @@ public class CustomSecurityConfig {
     @Bean
     public SecurityFilterChain secFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-        //disable csrf token authentication
-        httpSecurity.csrf(customizer->customizer.disable());
-        //enable authorization for all requests
-        httpSecurity.authorizeHttpRequests(request->request.anyRequest().authenticated());
-        //enable form login for authentication
-//        httpSecurity.formLogin(Customizer.withDefaults());
-        //enable basic authentication for accessing the api from postman or any other code without form login
-        httpSecurity.httpBasic(Customizer.withDefaults());
-        //enable stateless session management to avoid csrf token authentication and use different session id for each request
-        httpSecurity.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        //create and return filter chain for the above configurations
-        return httpSecurity.build();
+//        //disable csrf token authentication
+//        httpSecurity.csrf(customizer->customizer.disable());
+//        //enable authorization for all requests
+//        httpSecurity.authorizeHttpRequests(request->request.anyRequest().authenticated());
+//        //enable form login for authentication
+////        httpSecurity.formLogin(Customizer.withDefaults());
+//        //enable basic authentication for accessing the api from postman or any other code without form login
+//        httpSecurity.httpBasic(Customizer.withDefaults());
+//        //enable stateless session management to avoid csrf token authentication and use different session id for each request
+//        httpSecurity.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+//        //create and return filter chain for the above configurations
+//        return httpSecurity.build();
+
+//        OR we can use builder pattern as below
+
+        return httpSecurity
+                .csrf(customizer->customizer.disable())
+                .authorizeHttpRequests(request->request.anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .build();
     }
 }
