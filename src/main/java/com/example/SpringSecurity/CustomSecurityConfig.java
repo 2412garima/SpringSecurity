@@ -1,0 +1,31 @@
+package com.example.SpringSecurity;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class CustomSecurityConfig {
+
+    @Bean
+    public SecurityFilterChain secFilterChain(HttpSecurity httpSecurity) throws Exception {
+
+        //disable csrf token authentication
+        httpSecurity.csrf(customizer->customizer.disable());
+        //enable authorization for all requests
+        httpSecurity.authorizeHttpRequests(request->request.anyRequest().authenticated());
+        //enable form login for authentication
+//        httpSecurity.formLogin(Customizer.withDefaults());
+        //enable basic authentication for accessing the api from postman or any other code without form login
+        httpSecurity.httpBasic(Customizer.withDefaults());
+        //enable stateless session management to avoid csrf token authentication and use different session id for each request
+        httpSecurity.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        //create and return filter chain for the above configurations
+        return httpSecurity.build();
+    }
+}
