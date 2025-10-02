@@ -1,4 +1,4 @@
-package com.example.SpringSecurity.entity;
+package com.example.SpringSecurity.model;
 
 public class Student {
 
